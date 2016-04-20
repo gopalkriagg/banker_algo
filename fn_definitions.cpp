@@ -51,14 +51,6 @@ bool safe(State tempState) {
 			rest.push_back(i);
 	}
 
-/*
-	cout << "The processes which have yet not run to completion in simulation:\n";
-	for(int i = 0; i < rest.size(); i++) {
-		cout << rest[i];
-	}
-	cout << endl;*/
-
-
 	int flag;
 	//Check now if there is any path through which rest of the remaining processes can run to completion
 	bool possible = true; //Assume there is such a path
@@ -140,20 +132,19 @@ void buildTempState(State tempState, int * request, int index) {
 		tempState->available[i] = state->available[i];
 	}
 
-	//Dbg Line: tempState->displayState();
 	//The new temp state will have same claimed and allocated resources...
 	for(int i = 0; i < p; i++)
 		for(int j = 0; j < r; j++) {
 			tempState->alloc[i][j] = state->alloc[i][j];
 			tempState->claim[i][j] = state->claim[i][j];
 		}
-	//Dbg Line: tempState->displayState();
+
 	// ...except that process with index 'index' will have request amount of more resources...
 	add(tempState->alloc[index], request, tempState->alloc[index], r);
-	//Dbg Line: tempState->displayState();
+
 	// ...and availble resources will be reduced in this tempState by request amount
 	subtract(state->available, request, tempState->available, r);
-	//Dbg Line: tempState->displayState();
+
 }
 
 
